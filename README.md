@@ -38,6 +38,7 @@ A mobile-first record collection app for cataloguing and browsing your vinyl lib
 ### Prerequisites
 
 - Node.js 18+
+- [Supabase CLI](https://supabase.com/docs/guides/cli)
 - A [Supabase](https://supabase.com) project
 
 ### Environment Variables
@@ -49,11 +50,21 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_API_KEY=your-supabase-anon-key
 ```
 
+### Database Setup
+
+```bash
+supabase start              # Local Supabase instance
+supabase db reset           # Apply migrations + seed data
+supabase db push            # Push migrations to remote project
+```
+
 ### Development
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
+pnpm build                  # Type-check + production build
+pnpm lint                   # ESLint
 ```
 
 ### Mobile Builds
@@ -71,8 +82,8 @@ npx cap open android
 ### Testing
 
 ```bash
-npm run test:unit      # Vitest
-npm run test:e2e       # Cypress
+pnpm test:unit         # Vitest
+pnpm test:e2e          # Cypress
 ```
 
 ## Database Schema
@@ -84,7 +95,7 @@ The current schema has `albums` and `artists` tables with Supabase Auth for user
 - **genres** with junction tables for both albums and songs
 - **feature artists** at both album and song level
 
-See the migration file for full details.
+Seed data in `supabase/seed.sql` populates 39 artists, 33 albums across all genres, and sample tracklists. Run `supabase db reset` to apply migrations and seed together.
 
 ## Project Structure
 
@@ -100,4 +111,8 @@ src/
 ├── utils/           # Image upload helpers
 └── views/           # Page-level route components
     └── albums/      # Album CRUD views
+
+supabase/
+├── migrations/      # SQL schema migrations
+└── seed.sql         # Development seed data
 ```
